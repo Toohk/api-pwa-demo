@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const cors = require('cors')
 
 const authRoute = require('./routes/auth');
-const postRoute = require('./routes/posts');
+const folderRoute = require('./routes/folder');
+const binderRoute = require('./routes/binder');
 
 dotenv.config();
 
@@ -19,7 +20,8 @@ app.use(cors())
 
 
 app.use('/api/user', authRoute);
-app.use('/api/posts', postRoute);
+app.use('/api/folder', folderRoute);
+app.use('/api/binder', binderRoute);
 
 
 
