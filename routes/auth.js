@@ -1,5 +1,6 @@
 const router = require ('express').Router();
 const User = require('../models/User');
+const Library = require('../models/Library');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { registerValidation, loginValidation } = require('../validation');
@@ -7,6 +8,7 @@ const { registerValidation, loginValidation } = require('../validation');
 
 
 router.post('/signup', async (req,res) => {
+    console.log(req.body.email, req.body.password)
 
     const {error} = registerValidation(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -24,6 +26,15 @@ router.post('/signup', async (req,res) => {
     })
     try {
         const savedUser = await user.save()
+        const library = new Library({
+            user: user._id,
+        })
+        try {
+            const savedLibrary = await library.save()
+            res.send({library: library._id});
+        } catch (err) {
+            res.status(400).send(err);
+        }
         res.send({user: user._id});
     } catch (err) {
         res.status(400).send(err);
@@ -44,7 +55,6 @@ router.post('/login', async (req,res) => {
     if(!validPass) return res.status(400).send('Email or password is wrong');
 
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-    
     res.header('accessToken', token).send(token);
 });
 

@@ -18,29 +18,6 @@ const loginValidation = (data) => {
 
 };
 
-const folderValidation = (data) => {
-    const schema = {
-        name: Joi.string().max(50).required(),
-        user:Joi.string().max(255).required()
-    };
-   return Joi.validate(data, schema);
-
-};
-
-const binderValidation = (data) => {
-    const schema = {
-        name: Joi.string().max(50).required(),
-        description: Joi.string().max(255),
-        folder:Joi.string().max(50).required()
-    };
-   return Joi.validate(data, schema);
-
-};
-
-
-
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 
-module.exports.folderValidation = folderValidation;
-module.exports.binderValidation = binderValidation;
