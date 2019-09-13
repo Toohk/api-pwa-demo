@@ -1,10 +1,9 @@
 const router = require ('express').Router();
 const User = require('../models/User');
-const Library = require('../models/Library');
+const Chest = require('../models/Chest');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { registerValidation, loginValidation } = require('../validation');
-
 
 
 router.post('/signup', async (req,res) => {
@@ -26,12 +25,13 @@ router.post('/signup', async (req,res) => {
     })
     try {
         const savedUser = await user.save()
-        const library = new Library({
+        const chest = new Chest({
             user: user._id,
+            stock: []
         })
         try {
-            const savedLibrary = await library.save()
-            res.send({library: library._id});
+            const savedChest = await chest.save()
+            res.send({chest: chest._id});
         } catch (err) {
             res.status(400).send(err);
         }
@@ -57,8 +57,5 @@ router.post('/login', async (req,res) => {
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
     res.header('accessToken', token).send(token);
 });
-
-
-
 
 module.exports = router;
