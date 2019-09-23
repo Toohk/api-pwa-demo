@@ -6,9 +6,9 @@ const ChestSchema = new mongoose.Schema({
         required: true,
         max: 255,
     },
-    stock:[
-
-    ]
+    stock:{
+        type:Object
+    }
 },
 { minimize: false });
 
